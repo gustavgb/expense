@@ -38,6 +38,21 @@ const buildHMTL = (app = '', styles = '', preloadedState = {}) => `
     </head>
     <body>
       <div id="root">${app}</div>
+      <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+      <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+          apiKey: "AIzaSyDUv0_RXlW1X6zMVGiZsJxY0xKluHdnmsw",
+          authDomain: "expense-gustavgb-com.firebaseapp.com",
+          databaseURL: "https://expense-gustavgb-com.firebaseio.com",
+          projectId: "expense-gustavgb-com",
+          storageBucket: "expense-gustavgb-com.appspot.com",
+          messagingSenderId: "798553167776",
+          appId: "1:798553167776:web:b589d28a5524be6c"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+      </script>
       <script>
         // WARNING: See the following for security issues around embedding JSON in HTML:
         // http://redux.js.org/recipes/ServerRendering.html#security-considerations
