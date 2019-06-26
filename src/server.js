@@ -4,10 +4,11 @@ import 'regenerator-runtime/runtime'
 import React from 'react'
 import ReactDOM from 'react-dom/server'
 import express from 'express'
-import { ServerStyleSheet } from 'styled-components'
+import { ServerStyleSheet, ThemeProvider } from 'styled-components'
 import path from 'path'
 import createStore from 'store'
 import { Provider } from 'react-redux'
+import theme from 'theme'
 
 import App from 'App'
 
@@ -18,15 +19,6 @@ const app = express()
 
 app.use(express.urlencoded({ extended: true }))
 
-app.get('/api/test', (req, res) => {
-  setTimeout(() => {
-    res.json({
-      name: 'Gustav Burchardt',
-      bio: 'I like to create stuff'
-    })
-  }, 1000)
-})
-
 const buildHMTL = (app = '', styles = '', preloadedState = {}) => `
   <html>
     <head>
@@ -34,11 +26,15 @@ const buildHMTL = (app = '', styles = '', preloadedState = {}) => `
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="shortcut icon" href="money.ico" />
+      <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+
       ${styles}
     </head>
     <body>
       <div id="root">${app}</div>
       <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/6.2.3/firebase-firestore.js"></script>
       <script>
         // Your web app's Firebase configuration
         var firebaseConfig = {
@@ -75,7 +71,9 @@ app.get('/*', (req, res) => {
   try {
     const app = ReactDOM.renderToString(sheet.collectStyles((
       <Provider store={store}>
-        <App />
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
       </Provider>
     )))
     const preloadedState = store.getState()
