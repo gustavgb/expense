@@ -1,7 +1,6 @@
 const path = require('path')
 const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
 
 module.exports = (env, argv) => ({
   entry: './src/index.js',
@@ -32,12 +31,6 @@ module.exports = (env, argv) => ({
     }),
     new CopyPlugin([
       { from: 'public', to: '.' }
-    ]),
-    new CompressionPlugin({
-      test: /\.js(\?.*)?$/i,
-      filename: '[path].gz[query]',
-      algorithm: 'gzip',
-      deleteOriginalAssets: true
-    })
+    ])
   ]
 })
