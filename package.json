@@ -1,5 +1,5 @@
 {
-  "name": "time",
+  "name": "expense",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,13 +7,9 @@
     "@material-ui/icons": "^4.2.1",
     "@material-ui/styles": "^4.1.2",
     "core-js": "^3.1.4",
-    "express": "^4.17.1",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-redux": "^7.1.0",
-    "redux": "^4.0.1",
-    "redux-thunk": "^2.3.0",
     "regenerator-runtime": "^0.13.2"
   },
   "scripts": {
