@@ -10,8 +10,18 @@ I want to create an app that makes it easy to document previous expenses at regu
 
 This app will be developed using React/Redux for the front-end, Express.js for the web server (SSR, etc.) and Firebase Authentication and Firestore for private and persistent user data.
 
+## Preparation
+
+Make sure you have node and npm set up on your machine, and then run `npm install`
+
 ## How to develop
 
-`npm install && npm run dev`
+`npm run start`
 
-This will launch the build processes for both the server and client bundles as well as launch the web server, which is available at http://localhost:3000.
+This will launch webpack dev server, which is available at http://localhost:8080.
+
+## How to build
+
+`npm run build`
+
+Distribute the *dist/* directory.

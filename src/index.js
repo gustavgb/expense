@@ -5,39 +5,29 @@ import 'regenerator-runtime/runtime'
 
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { Provider } from 'react-redux'
-import createStore from 'store'
-import { ThemeProvider } from 'styled-components'
-import theme from 'theme'
+import { ThemeProvider } from '@material-ui/styles'
 
-import App from 'App'
-import { restoreLogin } from 'actions/auth'
-import { navigateTo } from 'actions/navigation'
+import theme from 'setup/theme'
 
-window.global = {
-  window
-}
+import App from 'Modules/App'
 
-const store = createStore()
+import { setState } from 'utils/globalState'
 
-let removeListener = false
 firebase.auth().onAuthStateChanged(user => {
-  if (removeListener) {
-    return
-  }
-  removeListener = true
   if (user) {
-    store.dispatch(restoreLogin(user))
+    setState('location', 'home')
   } else {
-    store.dispatch(navigateTo('login'))
+    setState('location', 'login')
   }
 })
 
-ReactDOM.hydrate(
-  <Provider store={store}>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
-  </Provider>,
+const Main = () => (
+  <ThemeProvider theme={theme}>
+    <App />
+  </ThemeProvider>
+)
+
+ReactDOM.render(
+  <Main />,
   document.getElementById('root')
 )

@@ -1,9 +1,17 @@
 const path = require('path')
-const nodeExternals = require('webpack-node-externals')
 const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin')
 
-const common = {
+module.exports = (env, argv) => ({
+  entry: './src/index.js',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist')
+  },
+  devtool: argv.mode === 'development' ? 'source-map' : '',
+  name: 'client',
+  target: 'web',
   module: {
     rules: [
       {
@@ -17,35 +25,19 @@ const common = {
       'node_modules',
       path.resolve(__dirname, 'src')
     ]
-  }
-}
-
-module.exports = [
-  Object.assign({}, common, {
-    entry: './src/server.js',
-    output: {
-      filename: 'server.js',
-      path: path.resolve(__dirname, 'dist')
-    },
-    name: 'server',
-    target: 'node',
-    externals: [nodeExternals()]
-  }),
-  Object.assign({}, common, {
-    entry: './src/index.js',
-    output: {
-      filename: 'bundle.js',
-      path: path.resolve(__dirname, 'dist')
-    },
-    name: 'client',
-    target: 'web',
-    plugins: [
-      new CleanWebpackPlugin({
-        cleanOnceBeforeBuildPatterns: ['**/*', '!server.js']
-      }),
-      new CopyPlugin([
-        { from: 'public', to: '.' }
-      ])
-    ]
-  })
-]
+  },
+  plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: ['**/*', '!server.js']
+    }),
+    new CopyPlugin([
+      { from: 'public', to: '.' }
+    ]),
+    new CompressionPlugin({
+      test: /\.js(\?.*)?$/i,
+      filename: '[path].gz[query]',
+      algorithm: 'gzip',
+      deleteOriginalAssets: true
+    })
+  ]
+})
