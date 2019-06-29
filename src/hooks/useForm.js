@@ -6,7 +6,6 @@ export default (initialFields = {}, createSubmitPromise) => {
 
   const setField = useCallback(
     (key, value) => {
-      console.log(key, value)
       setForm({
         ...form,
         [key]: value
@@ -31,7 +30,6 @@ export default (initialFields = {}, createSubmitPromise) => {
       setStatus('pending')
 
       try {
-        console.log(form)
         await createSubmitPromise(form)
 
         setStatus('success')

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import Container from '@material-ui/core/Container'
 import Centered from 'Components/Centered'
 import CircularProgress from '@material-ui/core/CircularProgress'
+import Fade from '@material-ui/core/Fade'
 import useForm from 'hooks/useForm'
 
 import {
@@ -52,51 +53,53 @@ const Login = () => {
 
   return (
     <Centered>
-      <Container maxWidth="sm">
-        <Typography
-          component="h1"
-          variant="h5"
-        >
-          Enter credentials 🔐
-        </Typography>
-        <form onSubmit={submit}>
-          <TextField
-            required
-            fullWidth
-            name="email"
-            value={email}
-            onChange={({ target: { value } }) => setField('email', value)}
-            className={classes.input}
-            variant="outlined"
-          />
-          <TextField
-            required
-            fullWidth
-            name="password"
-            type="password"
-            value={password}
-            onChange={({ target: { value } }) => setField('password', value)}
-            className={classes.input}
-            variant="outlined"
-          />
-          <Button
-            variant="contained"
-            fullWidth
-            type="submit"
-            color="primary"
-            className={classes.button}
+      <Fade in timeout={500}>
+        <Container maxWidth="sm">
+          <Typography
+            component="h1"
+            variant="h5"
           >
-            {status === 'pending' && (<CircularProgress color="inherit" size={23} />)}
-            {status === 'ready' && (type === 'login' ? 'Login' : 'Register')}
-          </Button>
-          <Button onClick={onToggleType}>
-            {type === 'login'
-              ? 'Don\'t have an account? Sign up instead.'
-              : 'Already have an account? Login here.'
-            }
-          </Button>
-        </form>
-      </Container>
+            Enter credentials 🔐
+          </Typography>
+          <form onSubmit={submit}>
+            <TextField
+              required
+              fullWidth
+              name="email"
+              value={email}
+              onChange={({ target: { value } }) => setField('email', value)}
+              className={classes.input}
+              variant="outlined"
+            />
+            <TextField
+              required
+              fullWidth
+              name="password"
+              type="password"
+              value={password}
+              onChange={({ target: { value } }) => setField('password', value)}
+              className={classes.input}
+              variant="outlined"
+            />
+            <Button
+              variant="contained"
+              fullWidth
+              type="submit"
+              color="primary"
+              className={classes.button}
+            >
+              {status === 'pending' && (<CircularProgress color="inherit" size={23} />)}
+              {status === 'ready' && (type === 'login' ? 'Login' : 'Register')}
+            </Button>
+            <Button onClick={onToggleType}>
+              {type === 'login'
+                ? 'Don\'t have an account? Sign up instead.'
+                : 'Already have an account? Login here.'
+              }
+            </Button>
+          </form>
+        </Container>
+      </Fade>
     </Centered>
   )
 }

@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import usePromise from 'hooks/usePromise'
 import { getAllEntries, addEntry } from 'api/entries'
+import { logout } from 'api/auth'
 import { makeStyles } from '@material-ui/styles'
 import Container from '@material-ui/core/Container'
 import Card from '@material-ui/core/Card'
@@ -27,6 +28,11 @@ import {
   KeyboardDatePicker
 } from '@material-ui/pickers'
 import DateFnsUtils from '@date-io/moment'
+import MoreVertIcon from '@material-ui/icons/MoreVert'
+import IconButton from '@material-ui/core/IconButton'
+import CardHeader from '@material-ui/core/CardHeader'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
 import getCurrentDate from 'utils/getCurrentDate'
 import useForm from 'hooks/useForm'
 import moment from 'moment'
@@ -94,6 +100,7 @@ const Home = () => {
   const createExpandHandler = step => (event, isExpanded) => {
     setFormStep(isExpanded ? step : false)
   }
+  const [menuAnchor, setMenuAnchor] = useState(null)
 
   const [{ description, amount, date, status: addStatus }, { setField, resetForm, submit }] = useForm(
     {
@@ -136,10 +143,26 @@ const Home = () => {
       )}
       {status === 'success' && (
         <>
+          <Menu
+            id="simple-menu"
+            anchorEl={menuAnchor}
+            keepMounted
+            open={Boolean(menuAnchor)}
+            onClose={() => setMenuAnchor(null)}
+          >
+            <MenuItem onClick={logout}>Logout</MenuItem>
+          </Menu>
           <Card className={classes.card}>
             <Collapse in={!adding} timeout={500}>
+              <CardHeader
+                action={
+                  <IconButton aria-label="Settings" onClick={({ currentTarget }) => setMenuAnchor(currentTarget)}>
+                    <MoreVertIcon />
+                  </IconButton>
+                }
+                title={<Typography className={classes.overviewHeader} color="textSecondary">Overview</Typography>}
+              />
               <CardContent>
-                <Typography className={classes.overviewHeader} color="textSecondary" gutterBottom>Overview</Typography>
                 <Typography variant="h5">Sum: {sum}</Typography>
                 <Typography color="textSecondary" gutterBottom>
                   {sum === 0 && 'You\'re even. It\'s a tie I guess.'}

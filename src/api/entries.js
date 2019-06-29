@@ -17,8 +17,6 @@ export const getAllEntries = () => new Promise((resolve, reject) => {
 
       const sum = entries.reduce((temp, entry) => temp + parseInt(entry.amount, 10), 0).toFixed(2)
 
-      console.log(entries, sum)
-
       resolve({ sum, entries })
     })
     .catch(err => {
@@ -29,8 +27,6 @@ export const getAllEntries = () => new Promise((resolve, reject) => {
 
 export const addEntry = (form) => {
   const data = mapCreate(form)
-
-  console.log(data, form)
 
   const db = firebase.firestore()
   return db.collection('entries').add(data)
