@@ -6,7 +6,8 @@ const Centered = styled('div')(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'none',
-  height: '100vh',
+  height: '100%',
+  width: '100%',
   paddingBottom: theme.spacing(3)
 }))
 

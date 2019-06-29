@@ -1,10 +1,15 @@
 import React from 'react'
+import { styled } from '@material-ui/styles'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Home from 'Modules/Home'
 import Login from 'Modules/Login'
 
 import useGlobalState from 'hooks/useGlobalState'
+
+const Wrapper = styled('div')({
+  minHeight: '100vh'
+})
 
 const App = () => {
   let child
@@ -23,10 +28,10 @@ const App = () => {
   }
 
   return (
-    <>
+    <Wrapper>
       <CssBaseline />
       {child}
-    </>
+    </Wrapper>
   )
 }
 

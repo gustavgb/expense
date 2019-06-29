@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react'
 
-export default (initialFields, createSubmitPromise) => {
-  const [form, setForm] = useState(initialFields || {})
+export default (initialFields = {}, createSubmitPromise) => {
+  const [form, setForm] = useState(initialFields)
   const [status, setStatus] = useState('ready')
 
   const setField = useCallback(
     (key, value) => {
+      console.log(key, value)
       setForm({
         ...form,
         [key]: value
@@ -27,15 +28,16 @@ export default (initialFields, createSubmitPromise) => {
         e.preventDefault()
       }
 
-      setStatus('loading')
+      setStatus('pending')
 
       try {
+        console.log(form)
         await createSubmitPromise(form)
 
         setStatus('success')
       } catch (err) {
         console.error(err)
-        return setStatus('failed')
+        setStatus('failed')
       }
     },
     [form, createSubmitPromise]

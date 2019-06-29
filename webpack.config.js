@@ -9,6 +9,10 @@ module.exports = (env, argv) => ({
     path: path.resolve(__dirname, 'dist')
   },
   devtool: argv.mode === 'development' ? 'source-map' : '',
+  devServer: {
+    contentBase: './dist',
+    hot: true
+  },
   name: 'client',
   target: 'web',
   module: {

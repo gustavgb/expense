@@ -14,7 +14,7 @@ import App from 'Modules/App'
 import { setState } from 'utils/globalState'
 
 const enableAuthWatcher = () => {
-  firebase.auth().onAuthStateChanged(user => {
+  return firebase.auth().onAuthStateChanged(user => {
     if (user) {
       setState('location', 'home')
     } else {

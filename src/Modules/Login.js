@@ -86,7 +86,7 @@ const Login = () => {
             color="primary"
             className={classes.button}
           >
-            {status === 'loading' && (<CircularProgress />)}
+            {status === 'pending' && (<CircularProgress color="inherit" size={23} />)}
             {status === 'ready' && (type === 'login' ? 'Login' : 'Register')}
           </Button>
           <Button onClick={onToggleType}>
