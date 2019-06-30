@@ -33,6 +33,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CardHeader from '@material-ui/core/CardHeader'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import MoneyWrapper from 'Components/MoneyWrapper'
 import getCurrentDate from 'utils/getCurrentDate'
 import useForm from 'hooks/useForm'
 import moment from 'moment'
@@ -49,8 +50,14 @@ const useStyles = makeStyles((theme) => ({
     top: 'calc(50% - 20px)',
     left: 'calc(50% - 20px)'
   },
-  overviewHeader: {
+  smallHeader: {
     fontSize: 14
+  },
+  overviewHeader: {
+    backgroundColor: theme.palette.primary.main,
+    '& *': {
+      color: theme.palette.primary.contrastText
+    }
   },
   formHeader: {
     backgroundColor: theme.palette.primary.main,
@@ -155,15 +162,16 @@ const Home = () => {
           <Card className={classes.card}>
             <Collapse in={!adding} timeout={500}>
               <CardHeader
+                className={classes.overviewHeader}
                 action={
                   <IconButton aria-label="Settings" onClick={({ currentTarget }) => setMenuAnchor(currentTarget)}>
                     <MoreVertIcon />
                   </IconButton>
                 }
-                title={<Typography className={classes.overviewHeader} color="textSecondary">Overview</Typography>}
+                title={<Typography variant="h6" color="textSecondary">Overview</Typography>}
               />
               <CardContent>
-                <Typography variant="h5">Sum: {sum}</Typography>
+                <Typography variant="h5">You have <MoneyWrapper>{sum}</MoneyWrapper> left this month</Typography>
                 <Typography color="textSecondary" gutterBottom>
                   {sum === 0 && 'You\'re even. It\'s a tie I guess.'}
                   {sum < 0 && 'Oops...'}
@@ -283,12 +291,12 @@ const Home = () => {
               {entries.length > 0 && (
                 <Card className={classes.card}>
                   <CardContent>
-                    <Typography className={classes.overviewHeader} color="textSecondary" gutterBottom>Entries</Typography>
+                    <Typography className={classes.smallHeader} color="textSecondary" gutterBottom>Entries</Typography>
                     <List>
                       {entries.map(entry => (
                         <ListItem key={entry.id}>
                           <ListItemAvatar>
-                            <div>{entry.amount}</div>
+                            <MoneyWrapper>{entry.amount}</MoneyWrapper>
                           </ListItemAvatar>
                           <ListItemText
                             primary={entry.description}
