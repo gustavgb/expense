@@ -1,6 +1,7 @@
 # Expense
 
 Preview at https://expense.gustavgb.com.
+(current not open for public use)
 
 ## Goal
 
