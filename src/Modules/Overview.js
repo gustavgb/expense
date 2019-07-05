@@ -5,13 +5,13 @@ import Container from '@material-ui/core/Container'
 import Card from '@material-ui/core/Card'
 import CardContent from '@material-ui/core/CardContent'
 import Typography from '@material-ui/core/Typography'
-import CircularProgress from '@material-ui/core/CircularProgress'
 import Fade from '@material-ui/core/Fade'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import MoneyWrapper from 'Components/MoneyWrapper'
 import CardHeader from '@material-ui/core/CardHeader'
+import Status from 'Components/Status'
 import moment from 'moment'
 
 import useGlobalState from 'hooks/useGlobalState'
@@ -23,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     padding: theme.spacing(4, 0),
     position: 'relative'
-  },
-  progress: {
-    position: 'absolute',
-    top: 'calc(50% - 20px)',
-    left: 'calc(50% - 20px)'
   },
   smallHeader: {
     fontSize: 14
@@ -74,48 +69,48 @@ const Overview = ({ entries = [], status }) => {
   const sum = entries.reduce((acc, entry) => acc + entry.amount, 0)
 
   return (
-    <Container className={classes.container} maxWidth="xs">
-      {status === 'pending' && (
-        <CircularProgress color="primary" className={classes.progress} />
-      )}
-      {status === 'success' && (
-        <Fade in timeout={500}>
-          <div>
-            {entries.length === 0 && (
-              <Typography className={classes.noEntries} color="textSecondary">You have no previous entries.</Typography>
-            )}
-            {entries.length > 0 && (
-              <Card className={classes.card}>
-                <CardHeader
-                  disableTypography
-                  className={classes.sectionHeader}
-                  title={(
-                    <>
-                      <Typography variant="h5" className={classes.sectionHeaderLeft}>All entries</Typography>
-                      <Typography variant="h5"><MoneyWrapper className={classes.sectionHeaderRight}>{sum}</MoneyWrapper></Typography>
-                    </>
-                  )}
-                />
-                <CardContent>
-                  <List>
-                    {entries.map(entry => (
-                      <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
-                        <ListItemText
-                          className={classes.listItemLeft}
-                          primary={entry.description}
-                          secondary={moment(entry.date).format('dddd, MMMM Do YYYY')}
-                        />
-                        <MoneyWrapper className={classes.listItemRight}>{entry.amount}</MoneyWrapper>
-                      </ListItem>
-                    ))}
-                  </List>
-                </CardContent>
-              </Card>
-            )}
-          </div>
-        </Fade>
-      )}
-    </Container>
+    <>
+      <Container className={classes.container} maxWidth="xs">
+        {status === 'success' && (
+          <Fade in timeout={500}>
+            <div>
+              {entries.length === 0 && (
+                <Typography className={classes.noEntries} color="textSecondary">You have no previous entries.</Typography>
+              )}
+              {entries.length > 0 && (
+                <Card className={classes.card}>
+                  <CardHeader
+                    disableTypography
+                    className={classes.sectionHeader}
+                    title={(
+                      <>
+                        <Typography variant="h5" className={classes.sectionHeaderLeft}>All entries</Typography>
+                        <Typography variant="h5"><MoneyWrapper className={classes.sectionHeaderRight}>{sum}</MoneyWrapper></Typography>
+                      </>
+                    )}
+                  />
+                  <CardContent>
+                    <List>
+                      {entries.map(entry => (
+                        <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
+                          <ListItemText
+                            className={classes.listItemLeft}
+                            primary={entry.description}
+                            secondary={moment(entry.date).format('dddd, MMMM Do YYYY')}
+                          />
+                          <MoneyWrapper className={classes.listItemRight}>{entry.amount}</MoneyWrapper>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </Fade>
+        )}
+      </Container>
+      <Status show={status === 'pending'} label="Loading..." />
+    </>
   )
 }
 
