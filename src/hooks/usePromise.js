@@ -1,14 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 
-export default (promiseCreator) => {
-  let [initialTrigger, setInitialTrigger] = useState(0)
-
-  if (initialTrigger === 0) {
-    initialTrigger = Date.now()
-    setInitialTrigger(initialTrigger)
-  }
-
-  const [lastTrigger, setLastTrigger] = useState(initialTrigger)
+export default (promiseCreator, { autoLoad = true } = {}) => {
+  const [lastTrigger, setLastTrigger] = useState(0)
   const [status, setStatus] = useState('ready')
   const [result, setResult] = useState()
 
@@ -37,7 +30,9 @@ export default (promiseCreator) => {
       }
     }
 
-    openPromise()
+    if (autoLoad || lastTrigger !== 0) {
+      openPromise()
+    }
 
     return () => {
       unmounted = true

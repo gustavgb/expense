@@ -14,6 +14,7 @@ import MoneyWrapper from 'Components/MoneyWrapper'
 import CardHeader from '@material-ui/core/CardHeader'
 import moment from 'moment'
 
+import useGlobalState from 'hooks/useGlobalState'
 import { statusPropType } from 'models/status'
 import { entryPropType } from 'models/entry'
 
@@ -68,6 +69,8 @@ const useStyles = makeStyles((theme) => ({
 const Overview = ({ entries = [], status }) => {
   const classes = useStyles()
 
+  const [, setLocation] = useGlobalState('location')
+
   const sum = entries.reduce((acc, entry) => acc + entry.amount, 0)
 
   return (
@@ -96,7 +99,7 @@ const Overview = ({ entries = [], status }) => {
                 <CardContent>
                   <List>
                     {entries.map(entry => (
-                      <ListItem key={entry.id}>
+                      <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
                         <ListItemText
                           className={classes.listItemLeft}
                           primary={entry.description}

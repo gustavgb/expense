@@ -12,6 +12,7 @@ import theme from 'setup/theme'
 import App from 'Modules/App'
 
 import { setState } from 'utils/globalState'
+import useGlobalState from 'hooks/useGlobalState'
 
 const enableAuthWatcher = () => {
   return firebase.auth().onAuthStateChanged(user => {
@@ -20,15 +21,21 @@ const enableAuthWatcher = () => {
     } else {
       setState('location', 'login')
     }
+    setState('initialized', true)
   })
 }
 
 const Main = () => {
+  const [initialized] = useGlobalState('initialized')
   useEffect(enableAuthWatcher, [])
 
   return (
     <ThemeProvider theme={theme}>
-      <App />
+      <div>
+        {initialized && (
+          <App />
+        )}
+      </div>
     </ThemeProvider>
   )
 }

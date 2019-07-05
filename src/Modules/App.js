@@ -5,6 +5,7 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import Overview from 'Modules/Overview'
 import Login from 'Modules/Login'
 import AddEntry from 'Modules/AddEntry'
+import EditEntry from 'Modules/EditEntry'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Navigation from 'Components/Navigation'
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
   const classes = useStyles()
   const [location = '', setLocation] = useGlobalState('location')
-  const [entries, status, reloadData] = usePromise(getAllEntries)
+  const [entries = [], status, reloadData] = usePromise(getAllEntries)
 
   return (
     <div>
@@ -41,6 +42,12 @@ const App = () => {
         open={location.includes('overview/add')}
         onClose={() => setLocation('overview')}
         onAfterSubmit={reloadData}
+      />
+      <EditEntry
+        open={location.includes('overview/edit')}
+        onClose={() => setLocation('overview')}
+        onAfterSubmit={reloadData}
+        entries={entries}
       />
       <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={() => setLocation('overview/add')}>
         <AddIcon />
