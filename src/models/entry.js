@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 
 export const mapGet = (data, doc) => ({
   ...data,
-  amount: data.amount.toFixed(2),
   id: doc.id
 })
 

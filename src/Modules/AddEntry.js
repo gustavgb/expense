@@ -47,8 +47,13 @@ const AddEntryDialog = ({ open, onClose, onAfterSubmit }) => {
   }
 
   return (
-    <Dialog open={open} TransitionProps={{ unmountOnExit: true, mountOnEnter: true }}>
-      <DialogTitle>Add new entry</DialogTitle>
+    <Dialog
+      open={open}
+      TransitionProps={{ unmountOnExit: true, mountOnEnter: true }}
+      aria-labelledby="simple-dialog-title"
+      onClose={onClose}
+    >
+      <DialogTitle id="simple-dialog-title">Add new entry</DialogTitle>
       <form onSubmit={submit}>
         <DialogContent>
           {addStatus === 'pending' && (<LinearProgress />)}

@@ -14,9 +14,6 @@ import { getAllEntries } from 'api/entries'
 import useGlobalState from 'hooks/useGlobalState'
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    minHeight: '100vh'
-  },
   fab: {
     position: 'fixed',
     bottom: theme.spacing(5),
@@ -30,7 +27,7 @@ const App = () => {
   const [entries, status, reloadData] = usePromise(getAllEntries)
 
   return (
-    <div className={classes.root}>
+    <div>
       <CssBaseline />
       <Navigation show={!location.includes('login')} />
       {location.includes('login') && (<Login />)}
