@@ -15,9 +15,7 @@ export const getAllEntries = () => new Promise((resolve, reject) => {
         entries.push(mapGet(doc.data(), doc))
       })
 
-      const sum = entries.reduce((temp, entry) => temp + parseInt(entry.amount, 10), 0).toFixed(2)
-
-      resolve({ sum, entries })
+      resolve(entries)
     })
     .catch(err => {
       console.error(err)

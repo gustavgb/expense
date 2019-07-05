@@ -6,12 +6,15 @@ module.exports = (env, argv) => ({
   entry: './src/index.js',
   output: {
     filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/'
   },
   devtool: argv.mode === 'development' ? 'source-map' : '',
   devServer: {
     contentBase: './dist',
-    hot: true
+    hot: true,
+    port: 3000,
+    historyApiFallback: true
   },
   name: 'client',
   target: 'web',

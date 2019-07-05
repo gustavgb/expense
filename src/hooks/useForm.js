@@ -1,8 +1,12 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+
+let counter = 0
+const unmounted = {}
 
 export default (initialFields = {}, createSubmitPromise) => {
   const [form, setForm] = useState(initialFields)
   const [status, setStatus] = useState('ready')
+  const [id] = useState(counter + 1)
 
   const setField = useCallback(
     (key, value) => {
@@ -17,29 +21,43 @@ export default (initialFields = {}, createSubmitPromise) => {
   const resetForm = useCallback(
     () => {
       setForm(initialFields)
+      setStatus('ready')
     },
-    [setForm]
+    [setForm, setStatus, initialFields]
   )
 
   const submit = useCallback(
-    async (e) => {
+    (e) => {
       if (e && e.preventDefault) {
         e.preventDefault()
       }
 
       setStatus('pending')
 
-      try {
-        await createSubmitPromise(form)
-
-        setStatus('success')
-      } catch (err) {
-        console.error(err)
-        setStatus('failed')
-      }
+      createSubmitPromise(form)
+        .then((cleanupFunc) => {
+          if (!unmounted[id]) {
+            setStatus('success')
+          }
+          cleanupFunc()
+        })
+        .catch(err => {
+          console.error(err)
+          if (!unmounted[id]) {
+            setStatus('failed')
+          }
+        })
     },
     [form, createSubmitPromise]
   )
+
+  useEffect(() => {
+    counter++
+
+    return () => {
+      unmounted[id] = true
+    }
+  }, [])
 
   return [
     {

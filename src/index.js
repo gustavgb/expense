@@ -16,7 +16,7 @@ import { setState } from 'utils/globalState'
 const enableAuthWatcher = () => {
   return firebase.auth().onAuthStateChanged(user => {
     if (user) {
-      setState('location', 'home')
+      setState('location', 'overview')
     } else {
       setState('location', 'login')
     }

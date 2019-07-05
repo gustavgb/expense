@@ -17,21 +17,31 @@ export default (promiseCreator) => {
   })
 
   useEffect(() => {
+    let unmounted = false
+
     const openPromise = async () => {
       setStatus('pending')
 
       try {
         const result = await promiseCreator()
 
-        setResult(result)
-        setStatus('success')
+        if (!unmounted) {
+          setResult(result)
+          setStatus('success')
+        }
       } catch (e) {
         console.error(e)
-        setStatus('failed')
+        if (!unmounted) {
+          setStatus('failed')
+        }
       }
     }
 
     openPromise()
+
+    return () => {
+      unmounted = true
+    }
   }, [lastTrigger])
 
   return [result, status, trigger]

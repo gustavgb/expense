@@ -1,37 +1,54 @@
 import React from 'react'
-import { styled } from '@material-ui/styles'
+import { makeStyles } from '@material-ui/styles'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
-import Home from 'Modules/Home'
+import Overview from 'Modules/Overview'
 import Login from 'Modules/Login'
+import AddEntry from 'Modules/AddEntry'
+import Fab from '@material-ui/core/Fab'
+import AddIcon from '@material-ui/icons/Add'
+import Navigation from 'Components/Navigation'
 
+import usePromise from 'hooks/usePromise'
+import { getAllEntries } from 'api/entries'
 import useGlobalState from 'hooks/useGlobalState'
 
-const Wrapper = styled('div')({
-  minHeight: '100vh'
-})
+const useStyles = makeStyles(theme => ({
+  root: {
+    minHeight: '100vh'
+  },
+  fab: {
+    position: 'fixed',
+    bottom: theme.spacing(5),
+    right: theme.spacing(5)
+  }
+}))
 
 const App = () => {
-  let child
-  const [location] = useGlobalState('location', 'home')
-
-  switch (location) {
-    case 'login':
-      child = <Login />
-      break
-    case 'home':
-      child = <Home />
-      break
-    default:
-      child = <span />
-      break
-  }
+  const classes = useStyles()
+  const [location = '', setLocation] = useGlobalState('location')
+  const [entries, status, reloadData] = usePromise(getAllEntries)
 
   return (
-    <Wrapper>
+    <div className={classes.root}>
       <CssBaseline />
-      {child}
-    </Wrapper>
+      <Navigation show={!location.includes('login')} />
+      {location.includes('login') && (<Login />)}
+      {location.includes('overview') && (
+        <Overview
+          entries={entries}
+          status={status}
+        />
+      )}
+      <AddEntry
+        open={location.includes('overview/add')}
+        onClose={() => setLocation('overview')}
+        onAfterSubmit={reloadData}
+      />
+      <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={() => setLocation('overview/add')}>
+        <AddIcon />
+      </Fab>
+    </div>
   )
 }
 
