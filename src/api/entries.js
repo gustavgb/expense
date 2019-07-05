@@ -1,6 +1,6 @@
 /* globals firebase */
 
-import { mapGet, mapCreate } from 'models/entry'
+import { mapGet, mapCreate, mapUpdate } from 'models/entry'
 
 export const getAllEntries = () => new Promise((resolve, reject) => {
   const db = firebase.firestore()
@@ -43,7 +43,7 @@ export const addEntry = (form) => {
 }
 
 export const saveEntry = ({ id, ...form }) => {
-  const data = mapCreate(form)
+  const data = mapUpdate(form)
 
   const db = firebase.firestore()
   return db.collection('entries').doc(id).update(data)
