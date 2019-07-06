@@ -75,6 +75,8 @@ const EditEntryDialog = ({ open, onClose, onAfterSubmit, entries }) => {
       TransitionProps={{ unmountOnExit: true, mountOnEnter: true }}
       aria-labelledby="simple-dialog-title"
       onClose={onClose}
+      maxWidth="sm"
+      fullWidth
     >
       <DialogTitle id="simple-dialog-title">
         <div className={classes.header}>

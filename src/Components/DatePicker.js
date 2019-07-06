@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const DatePicker = ({ onChange, value, required }) => {
+const DatePicker = ({ onChange, value, required, className }) => {
   const classes = useStyles()
 
   const [initialYear, initialMonth, initialDate] = useMemo(() => {
@@ -66,7 +66,7 @@ const DatePicker = ({ onChange, value, required }) => {
   }, [value])
 
   return (
-    <div className={classes.root}>
+    <div className={`${classes.root}${className ? ` ${className}` : ''}`}>
       <FormControl variant="outlined" className={classes.input} required={required}>
         <Select
           native
@@ -110,7 +110,8 @@ const DatePicker = ({ onChange, value, required }) => {
 DatePicker.propTypes = {
   onChange: PropTypes.func,
   value: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  className: PropTypes.string
 }
 
 export default DatePicker

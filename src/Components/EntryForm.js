@@ -78,24 +78,10 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
           variant="outlined"
         />
         <DatePicker
+          className={classes.input}
           value={date}
           onChange={(value) => onChangeField('date', value)}
         />
-        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <KeyboardDatePicker
-            margin="normal"
-            value={date}
-            onChange={handleChangeDate}
-            KeyboardButtonProps={{
-              'aria-label': 'change date'
-            }}
-            className={classes.input}
-            fullWidth
-            inputVariant="outlined"
-            autoOk
-            disableToolbar
-          />
-        </MuiPickersUtilsProvider> */}
       </DialogContent>
       {children}
     </form>
