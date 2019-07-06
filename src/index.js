@@ -1,5 +1,4 @@
 /* globals firebase */
-
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 
@@ -13,6 +12,9 @@ import App from 'Modules/App'
 
 import { setState } from 'utils/globalState'
 import useGlobalState from 'hooks/useGlobalState'
+import { stringToColor } from 'utils/color'
+
+window.stringToColor = stringToColor
 
 const enableAuthWatcher = () => {
   return firebase.auth().onAuthStateChanged(user => {
