@@ -4,7 +4,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 const theme = window.theme = createMuiTheme({
   palette: {
     money: {
-      income: '#14de2c',
+      income: '#42cf30',
       expense: '#de3914'
     }
   }

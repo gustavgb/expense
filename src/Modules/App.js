@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -10,6 +10,7 @@ import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Navigation from 'Components/Navigation'
 
+import { getCurrentInterval } from 'utils/date'
 import usePromise from 'hooks/usePromise'
 import { getAllEntries } from 'api/entries'
 import useGlobalState from 'hooks/useGlobalState'
@@ -25,12 +26,23 @@ const useStyles = makeStyles(theme => ({
 const App = () => {
   const classes = useStyles()
   const [location = '', setLocation] = useGlobalState('location')
-  const [entries = [], status, reloadData] = usePromise(getAllEntries)
+  const [dateOffset, setDateOffset] = useState(0)
+  const currentInterval = useMemo(() => getCurrentInterval(dateOffset), [dateOffset])
+  const [entries = [], status, reloadData] = usePromise(() => getAllEntries(currentInterval), { autoLoad: false })
+
+  useEffect(() => {
+    reloadData()
+  }, [dateOffset])
 
   return (
     <div>
       <CssBaseline />
-      <Navigation show={!location.includes('login')} />
+      <Navigation
+        show={!location.includes('login')}
+        currentInterval={currentInterval}
+        setDateOffset={setDateOffset}
+        dateOffset={dateOffset}
+      />
       {location.includes('login') && (<Login />)}
       {location.includes('overview') && (
         <Overview

@@ -71,43 +71,41 @@ const Overview = ({ entries = [], status }) => {
   return (
     <>
       <Container className={classes.container} maxWidth="xs">
-        {status === 'success' && (
-          <Fade in timeout={500}>
-            <div>
-              {entries.length === 0 && (
-                <Typography className={classes.noEntries} color="textSecondary">You have no previous entries.</Typography>
-              )}
-              {entries.length > 0 && (
-                <Card className={classes.card}>
-                  <CardHeader
-                    disableTypography
-                    className={classes.sectionHeader}
-                    title={(
-                      <>
-                        <Typography variant="h5" className={classes.sectionHeaderLeft}>All entries</Typography>
-                        <Typography variant="h5"><MoneyWrapper className={classes.sectionHeaderRight}>{sum}</MoneyWrapper></Typography>
-                      </>
-                    )}
-                  />
-                  <CardContent>
-                    <List>
-                      {entries.map(entry => (
-                        <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
-                          <ListItemText
-                            className={classes.listItemLeft}
-                            primary={entry.description}
-                            secondary={moment(entry.date).format('dddd, MMMM Do YYYY')}
-                          />
-                          <MoneyWrapper className={classes.listItemRight}>{entry.amount}</MoneyWrapper>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
-          </Fade>
-        )}
+        <Fade in={status === 'success'} timeout={500} mountOnEnter unmountOnExit>
+          <div>
+            {entries.length === 0 && (
+              <Typography className={classes.noEntries} color="textSecondary">No entries found.</Typography>
+            )}
+            {entries.length > 0 && (
+              <Card className={classes.card}>
+                <CardHeader
+                  disableTypography
+                  className={classes.sectionHeader}
+                  title={(
+                    <>
+                      <Typography variant="h5" className={classes.sectionHeaderLeft}>All entries</Typography>
+                      <Typography variant="h5"><MoneyWrapper className={classes.sectionHeaderRight}>{sum}</MoneyWrapper></Typography>
+                    </>
+                  )}
+                />
+                <CardContent>
+                  <List>
+                    {entries.map(entry => (
+                      <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
+                        <ListItemText
+                          className={classes.listItemLeft}
+                          primary={entry.description}
+                          secondary={moment(entry.date).format('dddd, MMMM Do YYYY')}
+                        />
+                        <MoneyWrapper className={classes.listItemRight}>{entry.amount}</MoneyWrapper>
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            )}
+          </div>
+        </Fade>
       </Container>
       <Status show={status === 'pending'} label="Loading..." />
     </>

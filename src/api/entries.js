@@ -2,13 +2,18 @@
 
 import { mapGet, mapCreate, mapUpdate } from 'models/entry'
 
-export const getAllEntries = () => new Promise((resolve, reject) => {
+export const getAllEntries = (interval) => new Promise((resolve, reject) => {
   const db = firebase.firestore()
   const uid = firebase.auth().currentUser.uid
 
+  const firstDate = interval.firstDate
+  const lastDate = interval.lastDate
+
   db.collection('entries')
-    .where('active', '==', true)
     .where('userId', '==', uid)
+    .where('active', '==', true)
+    .where('date', '>=', firstDate)
+    .where('date', '<=', lastDate)
     .get()
     .then(snap => {
       const entries = []

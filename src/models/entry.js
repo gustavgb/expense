@@ -16,7 +16,7 @@ export const mapGet = (data, doc) => ({
 export const mapCreate = (form) => ({
   date: new Date(form.date).toISOString(),
   description: form.description,
-  amount: parseInt(form.type === 'expense' ? -form.amount : form.amount, 10),
+  amount: parseInt(form.type === 'expense' ? -Math.abs(form.amount) : Math.abs(form.amount), 10),
   tags: form.tags,
   userId: firebase.auth().currentUser.uid,
   active: true
@@ -25,7 +25,7 @@ export const mapCreate = (form) => ({
 export const mapUpdate = (form) => ({
   date: new Date(form.date).toISOString(),
   description: form.description,
-  amount: parseInt(form.type === 'expense' ? -form.amount : form.amount, 10),
+  amount: parseInt(form.type === 'expense' ? -Math.abs(form.amount) : Math.abs(form.amount), 10),
   tags: form.tags,
   active: form.active
 })

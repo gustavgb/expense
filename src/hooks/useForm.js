@@ -39,7 +39,9 @@ export default (initialFields = {}, createSubmitPromise) => {
           if (!unmounted[id]) {
             setStatus('success')
           }
-          cleanupFunc()
+          if (typeof cleanupFunc === 'function') {
+            cleanupFunc()
+          }
         })
         .catch(err => {
           console.error(err)

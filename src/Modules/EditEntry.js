@@ -37,10 +37,11 @@ const EditEntryDialog = ({ open, onClose, onAfterSubmit, entries }) => {
     const entry = (entries.find(entry => entry.id === id) || {})
     return {
       description: '',
-      amount: '',
       date: new Date().toISOString(),
       tags: [],
-      ...entry
+      ...entry,
+      amount: Math.abs(entry.amount),
+      type: entry.amount > 0 ? 'income' : 'expense'
     }
   }, [entries.length, id, open])
 

@@ -1,17 +1,18 @@
 /* globals firebase */
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import SearchIcon from '@material-ui/icons/Search'
-import InputBase from '@material-ui/core/InputBase'
 import Slide from '@material-ui/core/Slide'
 import ExitIcon from '@material-ui/icons/ExitToApp'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import PrevIcon from '@material-ui/icons/ChevronLeft'
+import NextIcon from '@material-ui/icons/ChevronRight'
+import { makeStyles } from '@material-ui/core/styles'
 import { logout } from 'api/auth'
+import moment from 'moment'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,52 +28,24 @@ const useStyles = makeStyles(theme => ({
       display: 'block'
     }
   },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(1),
-      width: 'auto'
-    }
-  },
-  searchIcon: {
-    width: theme.spacing(7),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    color: 'inherit'
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 7),
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      width: 120,
-      '&:focus': {
-        width: 200
-      }
-    }
-  },
   user: {
     display: 'flex',
     alignItems: 'center',
     flex: '0 1 25%',
     justifyContent: 'flex-end'
+  },
+  date: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  dateLabel: {
+    width: '150px',
+    textAlign: 'center'
   }
 }))
 
-const Navigation = ({ show }) => {
+const Navigation = ({ show, currentInterval, dateOffset, setDateOffset }) => {
   const classes = useStyles()
   const [email, setEmail] = useState('')
 
@@ -86,6 +59,18 @@ const Navigation = ({ show }) => {
     })
   })
 
+  const handlePrevMonth = () => {
+    setDateOffset(dateOffset - 1)
+  }
+
+  const handleNextMonth = () => {
+    setDateOffset(dateOffset + 1)
+  }
+
+  const intervalLabel = useMemo(() => {
+    return moment(currentInterval.firstDate).format('MMMM YYYY')
+  }, [dateOffset])
+
   return (
     <Slide in={show} timeout={500} unmountOnExit mountOnEnter>
       <AppBar position="sticky">
@@ -93,18 +78,26 @@ const Navigation = ({ show }) => {
           <Typography className={classes.title} variant="h6" noWrap>
             Expense
           </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ 'aria-label': 'Search' }}
-            />
+          <div className={classes.date}>
+            <IconButton
+              className={classes.dateButton}
+              color="inherit"
+              aria-label="Previous month"
+              onClick={handlePrevMonth}
+            >
+              <PrevIcon />
+            </IconButton>
+            <Typography className={classes.dateLabel} variant="subtitle1" noWrap>
+              {intervalLabel}
+            </Typography>
+            <IconButton
+              className={classes.dateButton}
+              color="inherit"
+              aria-label="Next month"
+              onClick={handleNextMonth}
+            >
+              <NextIcon />
+            </IconButton>
           </div>
           <div className={classes.user}>
             <Typography className={classes.username} variant="subtitle1" noWrap>
@@ -127,7 +120,12 @@ const Navigation = ({ show }) => {
 }
 
 Navigation.propTypes = {
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  currentInterval: PropTypes.shape({
+    firstDate: PropTypes.string
+  }),
+  dateOffset: PropTypes.number,
+  setDateOffset: PropTypes.func
 }
 
 export default Navigation

@@ -65,7 +65,7 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
           <TextField
             required
             autoFocus
-            placeholder="Enter amount"
+            placeholder={`Amount ${type === 'expense' ? 'spent' : 'earned'}`}
             value={amount}
             onChange={({ target: { value } }) => onChangeField('amount', value)}
             type="number"
@@ -78,7 +78,7 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
         </div>
         <TextField
           required
-          placeholder="Enter description"
+          placeholder="Description"
           value={description}
           onChange={({ target: { value } }) => onChangeField('description', value)}
           className={classes.input}
