@@ -33,11 +33,15 @@ const App = () => {
   const [entries = [], status, reloadData] = usePromise(() => getAllEntries(currentInterval), { autoLoad: false })
 
   useEffect(() => {
+    reloadData()
+  }, [dateOffset])
+
+  useEffect(() => {
     return firebase.auth().onAuthStateChanged(user => {
       reloadData()
       setDateOffset(0)
     })
-  }, [dateOffset])
+  }, [])
 
   const isLogin = location.includes('login')
   const isOverview = location.includes('overview')

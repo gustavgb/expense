@@ -7,7 +7,7 @@ export default (promiseCreator, { autoLoad = true } = {}) => {
 
   const trigger = useCallback(() => {
     setLastTrigger(Date.now())
-  })
+  }, [])
 
   useEffect(() => {
     let unmounted = false
