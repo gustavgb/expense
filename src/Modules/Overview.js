@@ -12,7 +12,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import MoneyWrapper from 'Components/MoneyWrapper'
 import CardHeader from '@material-ui/core/CardHeader'
 import Status from 'Components/Status'
-import moment from 'moment'
+import { formatDate } from 'utils/date'
 
 import useGlobalState from 'hooks/useGlobalState'
 import { statusPropType } from 'models/status'
@@ -95,7 +95,7 @@ const Overview = ({ entries = [], status }) => {
                         <ListItemText
                           className={classes.listItemLeft}
                           primary={entry.description}
-                          secondary={moment(entry.date).format('dddd, MMMM Do YYYY')}
+                          secondary={formatDate(entry.date, 'dddd, mmmm d yyyy')}
                         />
                         <MoneyWrapper className={classes.listItemRight}>{entry.amount}</MoneyWrapper>
                       </ListItem>

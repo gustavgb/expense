@@ -12,7 +12,7 @@ import PrevIcon from '@material-ui/icons/ChevronLeft'
 import NextIcon from '@material-ui/icons/ChevronRight'
 import { makeStyles } from '@material-ui/core/styles'
 import { logout } from 'api/auth'
-import moment from 'moment'
+import { formatDate } from 'utils/date'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +68,7 @@ const Navigation = ({ show, currentInterval, dateOffset, setDateOffset }) => {
   }
 
   const intervalLabel = useMemo(() => {
-    return moment(currentInterval.firstDate).format('MMMM YYYY')
+    return formatDate(new Date(currentInterval.firstDate), 'mmmm yyyy')
   }, [dateOffset])
 
   return (

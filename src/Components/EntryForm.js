@@ -1,15 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import DialogContent from '@material-ui/core/DialogContent'
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker
-} from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/moment'
 import TextField from '@material-ui/core/TextField'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
+import DatePicker from 'Components/DatePicker'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -40,10 +36,6 @@ const useStyles = makeStyles(theme => ({
 
 const EntryForm = ({ form: { description, amount, date, type }, onChangeField, children, onSubmit }) => {
   const classes = useStyles()
-
-  const handleChangeDate = (value) => {
-    onChangeField('date', value.toISOString().replace(/T(\w|:|.)*/, ''))
-  }
 
   return (
     <form onSubmit={onSubmit}>
@@ -85,7 +77,11 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
           fullWidth
           variant="outlined"
         />
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <DatePicker
+          value={date}
+          onChange={(value) => onChangeField('date', value)}
+        />
+        {/* <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <KeyboardDatePicker
             margin="normal"
             value={date}
@@ -99,7 +95,7 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
             autoOk
             disableToolbar
           />
-        </MuiPickersUtilsProvider>
+        </MuiPickersUtilsProvider> */}
       </DialogContent>
       {children}
     </form>
