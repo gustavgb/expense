@@ -4,6 +4,11 @@ import { mapGet, mapCreate, mapUpdate } from 'models/entry'
 
 export const getAllEntries = (interval) => new Promise((resolve, reject) => {
   const db = firebase.firestore()
+
+  if (!firebase.auth().currentUser) {
+    resolve([])
+  }
+
   const uid = firebase.auth().currentUser.uid
 
   const firstDate = interval.firstDate

@@ -1,3 +1,5 @@
+/* globals firebase */
+
 import React, { useState, useMemo, useEffect } from 'react'
 import { makeStyles } from '@material-ui/styles'
 
@@ -31,39 +33,49 @@ const App = () => {
   const [entries = [], status, reloadData] = usePromise(() => getAllEntries(currentInterval), { autoLoad: false })
 
   useEffect(() => {
-    reloadData()
+    return firebase.auth().onAuthStateChanged(user => {
+      reloadData()
+      setDateOffset(0)
+    })
   }, [dateOffset])
+
+  const isLogin = location.includes('login')
+  const isOverview = location.includes('overview')
 
   return (
     <div>
       <CssBaseline />
       <Navigation
-        show={!location.includes('login')}
+        show={!isLogin}
         currentInterval={currentInterval}
         setDateOffset={setDateOffset}
         dateOffset={dateOffset}
       />
-      {location.includes('login') && (<Login />)}
-      {location.includes('overview') && (
+      {isLogin && (<Login />)}
+      {isOverview && (
         <Overview
           entries={entries}
           status={status}
         />
       )}
-      <AddEntry
-        open={location.includes('overview/add')}
-        onClose={() => setLocation('overview')}
-        onAfterSubmit={reloadData}
-      />
-      <EditEntry
-        open={location.includes('overview/edit')}
-        onClose={() => setLocation('overview')}
-        onAfterSubmit={reloadData}
-        entries={entries}
-      />
-      <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={() => setLocation('overview/add')}>
-        <AddIcon />
-      </Fab>
+      {isOverview && (
+        <>
+          <AddEntry
+            open={location.includes('overview/add')}
+            onClose={() => setLocation('overview')}
+            onAfterSubmit={reloadData}
+          />
+          <EditEntry
+            open={location.includes('overview/edit')}
+            onClose={() => setLocation('overview')}
+            onAfterSubmit={reloadData}
+            entries={entries}
+          />
+          <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={() => setLocation('overview/add')}>
+            <AddIcon />
+          </Fab>
+        </>
+      )}
     </div>
   )
 }

@@ -9,15 +9,15 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
     color: 'white',
-    backgroundColor: theme.palette.primary.main,
+    backgroundColor: props => theme.palette.primary[props.error ? 'error' : 'primary'],
     position: 'fixed',
     left: theme.spacing(2),
     bottom: theme.spacing(2)
   }
 }))
 
-const StatusIndicator = ({ label, show }) => {
-  const classes = useStyles()
+const StatusIndicator = ({ label, show, error }) => {
+  const classes = useStyles({ error })
 
   return (
     <Slide in={show} timeout={250} direction="up">
@@ -30,7 +30,8 @@ const StatusIndicator = ({ label, show }) => {
 
 StatusIndicator.propTypes = {
   label: PropTypes.string,
-  show: PropTypes.bool
+  show: PropTypes.bool,
+  error: PropTypes.bool
 }
 
 export default StatusIndicator

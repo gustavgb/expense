@@ -107,7 +107,7 @@ const Overview = ({ entries = [], status }) => {
           </div>
         </Fade>
       </Container>
-      <Status show={status === 'pending'} label="Loading..." />
+      <Status error show={status === 'failed'} label="Something went wrong" />
     </>
   )
 }

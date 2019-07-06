@@ -1,6 +1,6 @@
 const padZero = (n) => n < 10 ? `0${n}` : n
 
-export const getCurrentInterval = window.test = (offset) => {
+export const getCurrentInterval = (offset) => {
   const now = new Date()
 
   const year = now.getFullYear() + Math.floor((now.getMonth() + offset) / 12)
