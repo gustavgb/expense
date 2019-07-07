@@ -3,15 +3,8 @@ import { getState, setState, subscribe, unsubscribe } from 'utils/globalState'
 
 let counter = 0
 
-export default (key) => {
-  let [initialValue, setInitialValue] = useState(undefined)
-
-  if (getState(key) !== undefined && initialValue === undefined) {
-    initialValue = getState(key)
-    setInitialValue(initialValue)
-  }
-
-  const [value, setValue] = useState(initialValue)
+export default (key, options) => {
+  const [value, setValue] = useState(getState(key))
 
   useEffect(() => {
     const name = counter++
@@ -24,6 +17,6 @@ export default (key) => {
 
   return [
     value,
-    (newValue) => setState(key, newValue)
+    (newValue) => setState(key, newValue, options)
   ]
 }

@@ -11,6 +11,7 @@ import EditEntry from 'Modules/EditEntry'
 import Fab from '@material-ui/core/Fab'
 import AddIcon from '@material-ui/icons/Add'
 import Navigation from 'Components/Navigation'
+import FilterMenu from 'Components/FilterMenu'
 
 import { getCurrentInterval } from 'utils/date'
 import usePromise from 'hooks/usePromise'
@@ -19,10 +20,19 @@ import useGlobalState from 'hooks/useGlobalState'
 import { clearCache } from 'utils/cache'
 
 const useStyles = makeStyles(theme => ({
-  fab: {
+  fabContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: 'nowrap',
     position: 'fixed',
     bottom: theme.spacing(5),
-    right: theme.spacing(5)
+    right: theme.spacing(5),
+    '& > *': {
+      marginTop: theme.spacing(1.5),
+      '&:first-child': {
+        marginTop: 0
+      }
+    }
   }
 }))
 
@@ -77,9 +87,12 @@ const App = () => {
             onAfterSubmit={reloadData}
             entries={entries}
           />
-          <Fab color="secondary" aria-label="Add" className={classes.fab} onClick={() => setLocation('overview/add')}>
-            <AddIcon />
-          </Fab>
+          <div className={classes.fabContainer}>
+            <FilterMenu />
+            <Fab color="secondary" aria-label="Add" onClick={() => setLocation('overview/add')}>
+              <AddIcon />
+            </Fab>
+          </div>
         </>
       )}
     </div>

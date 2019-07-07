@@ -73,48 +73,50 @@ const Navigation = ({ show, currentInterval, dateOffset, setDateOffset }) => {
 
   return (
     <Slide in={show} timeout={500} unmountOnExit mountOnEnter>
-      <AppBar position="sticky">
-        <Toolbar className={classes.root}>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Expense
-          </Typography>
-          <div className={classes.date}>
-            <IconButton
-              className={classes.dateButton}
-              color="inherit"
-              aria-label="Previous month"
-              onClick={handlePrevMonth}
-            >
-              <PrevIcon />
-            </IconButton>
-            <Typography className={classes.dateLabel} variant="subtitle1" noWrap>
-              {intervalLabel}
+      <div>
+        <AppBar position="sticky">
+          <Toolbar className={classes.root}>
+            <Typography className={classes.title} variant="h6" noWrap>
+              Expense
             </Typography>
-            <IconButton
-              className={classes.dateButton}
-              color="inherit"
-              aria-label="Next month"
-              onClick={handleNextMonth}
-            >
-              <NextIcon />
-            </IconButton>
-          </div>
-          <div className={classes.user}>
-            <Typography className={classes.username} variant="subtitle1" noWrap>
-              {email}
-            </Typography>
-            <IconButton
-              edge="end"
-              className={classes.logoutButton}
-              color="inherit"
-              aria-label="Logout"
-              onClick={logout}
-            >
-              <ExitIcon />
-            </IconButton>
-          </div>
-        </Toolbar>
-      </AppBar>
+            <div className={classes.date}>
+              <IconButton
+                className={classes.dateButton}
+                color="inherit"
+                aria-label="Previous month"
+                onClick={handlePrevMonth}
+              >
+                <PrevIcon />
+              </IconButton>
+              <Typography className={classes.dateLabel} variant="subtitle1" noWrap>
+                {intervalLabel}
+              </Typography>
+              <IconButton
+                className={classes.dateButton}
+                color="inherit"
+                aria-label="Next month"
+                onClick={handleNextMonth}
+              >
+                <NextIcon />
+              </IconButton>
+            </div>
+            <div className={classes.user}>
+              <Typography className={classes.username} variant="subtitle1" noWrap>
+                {email}
+              </Typography>
+              <IconButton
+                edge="end"
+                className={classes.logoutButton}
+                color="inherit"
+                aria-label="Logout"
+                onClick={logout}
+              >
+                <ExitIcon />
+              </IconButton>
+            </div>
+          </Toolbar>
+        </AppBar>
+      </div>
     </Slide>
   )
 }

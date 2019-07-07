@@ -1,4 +1,5 @@
-const globalState = {}
+let globalState = {}
+let persistedStorage = {}
 const subscribers = []
 
 export const subscribe = (name, callback) => {
@@ -9,9 +10,14 @@ export const unsubscribe = (name) => {
   delete subscribers[name]
 }
 
-export const setState = global.setState = (key, value) => {
+export const setState = window.setState = (key, value, { persist = true } = {}) => {
   if (value === undefined) {
     throw new Error('Value cannot be undefined.')
+  }
+
+  if (persist) {
+    persistedStorage[key] = value
+    localStorage.setItem('globalState', JSON.stringify(persistedStorage))
   }
 
   globalState[key] = value
@@ -25,4 +31,14 @@ export const getState = (key) => {
   return globalState[key]
 }
 
-global.getState = () => globalState
+window.addEventListener('load', () => {
+  try {
+    const saved = JSON.parse(localStorage.getItem('globalState'))
+    persistedStorage = { ...saved }
+    globalState = { ...saved }
+  } catch (e) {
+    console.log('No global state saved')
+  }
+})
+
+window.getState = () => globalState
