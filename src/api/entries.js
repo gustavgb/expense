@@ -30,7 +30,7 @@ export const getAllEntries = (interval) => new Promise((resolve, reject) => {
       entries.sort((a, b) => {
         if (a.date < b.date) {
           return 1
-        } else if (a.date > b.data) {
+        } else if (a.date > b.date) {
           return -1
         } else {
           return 0
