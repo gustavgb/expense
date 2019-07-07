@@ -6,18 +6,22 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import DatePicker from 'Components/DatePicker'
+import DialogContentText from '@material-ui/core/DialogContentText'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
-  input: {
-    margin: theme.spacing(2, 0)
+  root: {
+    paddingTop: theme.spacing(2)
+  },
+  inputWrapper: {
+    margin: theme.spacing(2, 0, 3)
   },
   entryTypeList: {
     paddingBottom: theme.spacing(3)
   },
   amountWrapper: {
     display: 'flex',
-    margin: theme.spacing(2, 0)
+    margin: theme.spacing(2, 0, 3)
   },
   entryTypeInput: {
     flex: '0 0 auto',
@@ -39,7 +43,8 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
 
   return (
     <form onSubmit={onSubmit}>
-      <DialogContent>
+      <DialogContent className={classes.root}>
+        <DialogContentText>Enter the amount you've {type === 'expense' ? 'spent' : 'earned'} below.</DialogContentText>
         <div className={classes.amountWrapper}>
           <FormControl variant="outlined">
             <Select
@@ -68,15 +73,18 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
             }}
           />
         </div>
-        <TextField
-          required
-          placeholder="Description"
-          value={description}
-          onChange={({ target: { value } }) => onChangeField('description', value)}
-          className={classes.input}
-          fullWidth
-          variant="outlined"
-        />
+        <DialogContentText>Describe this entry below. Something short and descriptive.</DialogContentText>
+        <div className={classes.inputWrapper}>
+          <TextField
+            required
+            placeholder="Description"
+            value={description}
+            onChange={({ target: { value } }) => onChangeField('description', value)}
+            fullWidth
+            variant="outlined"
+          />
+        </div>
+        <DialogContentText>When did you {type === 'expense' ? 'spend' : 'earn'} this money?</DialogContentText>
         <DatePicker
           className={classes.input}
           value={date}
