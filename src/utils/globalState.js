@@ -10,12 +10,13 @@ export const unsubscribe = (name) => {
   delete subscribers[name]
 }
 
-export const setState = window.setState = (key, value, { persist = true } = {}) => {
+const persistReg = /:persist$/
+export const setState = window.setState = (key, value) => {
   if (value === undefined) {
     throw new Error('Value cannot be undefined.')
   }
 
-  if (persist) {
+  if (persistReg.test(key)) {
     persistedStorage[key] = value
     localStorage.setItem('globalState', JSON.stringify(persistedStorage))
   }

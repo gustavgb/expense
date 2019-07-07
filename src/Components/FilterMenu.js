@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Dialog from '@material-ui/core/Dialog'
 
 const FilterBar = () => {
-  const [currentFilter, setFilter] = useGlobalState('filter', { persist: true })
+  const [currentFilter, setFilter] = useGlobalState('filter:persist')
   const [open, setOpen] = useState(false)
 
   function handleClick () {
