@@ -31,7 +31,7 @@ const AddEntryDialog = ({ open, onClose, onAfterSubmit }) => {
       description: '',
       amount: '',
       date: new Date().toISOString(),
-      tags: [],
+      category: '',
       type: 'expense'
     },
     (form) => addEntry(form)

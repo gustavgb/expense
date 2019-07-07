@@ -7,6 +7,7 @@ import Select from '@material-ui/core/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput'
 import DatePicker from 'Components/DatePicker'
 import DialogContentText from '@material-ui/core/DialogContentText'
+import CategoryPicker from 'Components/CategoryPicker'
 import { makeStyles } from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
@@ -38,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const EntryForm = ({ form: { description, amount, date, type }, onChangeField, children, onSubmit }) => {
+const EntryForm = ({ form: { description, amount, date, type, category }, onChangeField, children, onSubmit }) => {
   const classes = useStyles()
 
   return (
@@ -86,9 +87,15 @@ const EntryForm = ({ form: { description, amount, date, type }, onChangeField, c
         </div>
         <DialogContentText>When did you {type === 'expense' ? 'spend' : 'earn'} this money?</DialogContentText>
         <DatePicker
-          className={classes.input}
+          className={classes.inputWrapper}
           value={date}
           onChange={(value) => onChangeField('date', value)}
+        />
+        <DialogContentText>Choose a category.</DialogContentText>
+        <CategoryPicker
+          className={classes.inputWrapper}
+          value={category}
+          onChange={(value) => onChangeField('category', value)}
         />
       </DialogContent>
       {children}
@@ -101,7 +108,8 @@ EntryForm.propTypes = {
     description: PropTypes.string,
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     date: PropTypes.string,
-    type: PropTypes.string
+    type: PropTypes.string,
+    category: PropTypes.string
   }),
   children: PropTypes.any,
   onSubmit: PropTypes.func,

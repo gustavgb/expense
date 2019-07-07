@@ -24,7 +24,7 @@ export const getAllEntries = (interval) => new Promise((resolve, reject) => {
       const entries = []
 
       snap.forEach(doc => {
-        entries.push(mapGet(doc.data(), doc))
+        entries.push(mapGet(doc))
       })
 
       entries.sort((a, b) => {

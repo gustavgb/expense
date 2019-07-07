@@ -2,22 +2,25 @@
 
 import PropTypes from 'prop-types'
 
-export const mapGet = (data, doc) => ({
-  description: '',
-  amount: '',
-  date: new Date().toISOString(),
-  tags: [],
-  active: true,
-  userId: '',
-  ...data,
-  id: doc.id
-})
+export const mapGet = (doc) => {
+  const data = doc.data()
+  return {
+    description: '',
+    amount: '',
+    date: new Date().toISOString(),
+    category: '',
+    active: true,
+    userId: '',
+    ...data,
+    id: doc.id
+  }
+}
 
 export const mapCreate = (form) => ({
   date: new Date(form.date).toISOString(),
   description: form.description,
   amount: parseInt(form.type === 'expense' ? -Math.abs(form.amount) : Math.abs(form.amount), 10),
-  tags: form.tags,
+  category: form.category,
   userId: firebase.auth().currentUser.uid,
   active: true
 })
@@ -26,7 +29,7 @@ export const mapUpdate = (form) => ({
   date: new Date(form.date).toISOString(),
   description: form.description,
   amount: parseInt(form.type === 'expense' ? -Math.abs(form.amount) : Math.abs(form.amount), 10),
-  tags: form.tags,
+  category: form.category,
   active: form.active
 })
 

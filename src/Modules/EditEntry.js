@@ -38,7 +38,7 @@ const EditEntryDialog = ({ open, onClose, onAfterSubmit, entries }) => {
     return {
       description: '',
       date: new Date().toISOString(),
-      tags: [],
+      category: '',
       ...entry,
       amount: Math.abs(entry.amount),
       type: entry.amount > 0 ? 'income' : 'expense'
