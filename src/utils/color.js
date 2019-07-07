@@ -2,19 +2,20 @@ export const stringToColor = (str) => {
   const len = str.length
   const splitLen = len / 6
   let parts = []
-  const letters = str.split('')
+  const letters = str.split('').map((letter, index) => {
+    const weight = (len - index) / len
+    const value = letter.charCodeAt(0) * weight
+    return Math.round(value)
+  })
 
-  for (let i = 0; i < len; i += splitLen) {
+  for (let i = 0; i < 6; i++) {
     const sectionStart = Math.floor(i)
     const sectionEnd = Math.ceil(splitLen) + sectionStart
-    parts.push(letters.slice(sectionStart, sectionEnd))
+    const slice = letters.slice(sectionStart, sectionEnd)
+    const sum = slice.reduce((acc, val) => acc + val, 0)
+    const part = (sum % 16).toString(16)
+    parts.push(part)
   }
-
-  parts = parts.map(part => {
-    const avg = Math.floor(part.reduce((acc, letter) => acc + letter.charCodeAt(0), 0) / part.length)
-    const colorCode = (avg % 16).toString(16)
-    return colorCode
-  })
 
   const color = '#' + parts.join('')
 

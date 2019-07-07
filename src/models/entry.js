@@ -1,6 +1,7 @@
 /* globals firebase */
 
 import PropTypes from 'prop-types'
+import { stringToColor } from 'utils/color'
 
 export const mapGet = (doc) => {
   const data = doc.data()
@@ -12,7 +13,8 @@ export const mapGet = (doc) => {
     active: true,
     userId: '',
     ...data,
-    id: doc.id
+    id: doc.id,
+    categoryColor: data.category ? stringToColor(data.category) : '#bdbdbd'
   }
 }
 

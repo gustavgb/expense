@@ -8,10 +8,13 @@ import Typography from '@material-ui/core/Typography'
 import Fade from '@material-ui/core/Fade'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+import Avatar from '@material-ui/core/Avatar'
 import ListItemText from '@material-ui/core/ListItemText'
 import MoneyWrapper from 'Components/MoneyWrapper'
 import CardHeader from '@material-ui/core/CardHeader'
 import Status from 'Components/Status'
+import Tooltip from '@material-ui/core/Tooltip'
 import { formatDate } from 'utils/date'
 
 import useGlobalState from 'hooks/useGlobalState'
@@ -92,6 +95,13 @@ const Overview = ({ entries = [], status }) => {
                   <List>
                     {entries.map(entry => (
                       <ListItem key={entry.id} button onClick={() => setLocation(`overview/edit/${entry.id}`)}>
+                        <ListItemAvatar>
+                          <Tooltip title={entry.category}>
+                            <Avatar style={{ backgroundColor: entry.categoryColor }}>
+                              <Typography variant="h6">{entry.category[0]}</Typography>
+                            </Avatar>
+                          </Tooltip>
+                        </ListItemAvatar>
                         <ListItemText
                           className={classes.listItemLeft}
                           primary={entry.description}

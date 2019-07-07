@@ -1,6 +1,7 @@
 /* globals firebase */
 
 import { mapGet, mapCreate, mapUpdate } from 'models/entry'
+import { getCategories, addCategory } from 'api/categories'
 
 export const getAllEntries = (interval) => new Promise((resolve, reject) => {
   const db = firebase.firestore()
@@ -45,18 +46,29 @@ export const getAllEntries = (interval) => new Promise((resolve, reject) => {
     })
 })
 
+const assertCategory = (data) => {
+  return getCategories()
+    .then(categories => {
+      if (!categories.find(cat => cat.label === data.category)) {
+        return addCategory({ label: data.category })
+      }
+    })
+}
+
 export const addEntry = (form) => {
   const data = mapCreate(form)
 
   const db = firebase.firestore()
-  return db.collection('entries').add(data)
+  return assertCategory(data)
+    .then(() => db.collection('entries').add(data))
 }
 
 export const saveEntry = ({ id, ...form }) => {
   const data = mapUpdate(form)
 
   const db = firebase.firestore()
-  return db.collection('entries').doc(id).update(data)
+  return assertCategory(data)
+    .then(() => db.collection('entries').doc(id).update(data))
 }
 
 export const deleteEntry = (id) => {

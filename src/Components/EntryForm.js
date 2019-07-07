@@ -50,6 +50,7 @@ const EntryForm = ({ form: { description, amount, date, type, category }, onChan
           <FormControl variant="outlined">
             <Select
               native
+              autoFocus
               value={type}
               onChange={({ target: { value } }) => onChangeField('type', value)}
               variant="outlined"
@@ -62,7 +63,6 @@ const EntryForm = ({ form: { description, amount, date, type, category }, onChan
           </FormControl>
           <TextField
             required
-            autoFocus
             placeholder={`Amount ${type === 'expense' ? 'spent' : 'earned'}`}
             value={amount}
             onChange={({ target: { value } }) => onChangeField('amount', value)}
@@ -94,6 +94,7 @@ const EntryForm = ({ form: { description, amount, date, type, category }, onChan
         <DialogContentText>Choose a category.</DialogContentText>
         <CategoryPicker
           className={classes.inputWrapper}
+          required
           value={category}
           onChange={(value) => onChangeField('category', value)}
         />

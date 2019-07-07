@@ -16,6 +16,7 @@ import { getCurrentInterval } from 'utils/date'
 import usePromise from 'hooks/usePromise'
 import { getAllEntries } from 'api/entries'
 import useGlobalState from 'hooks/useGlobalState'
+import { clearCache } from 'utils/cache'
 
 const useStyles = makeStyles(theme => ({
   fab: {
@@ -39,6 +40,7 @@ const App = () => {
   useEffect(() => {
     return firebase.auth().onAuthStateChanged(user => {
       reloadData()
+      clearCache()
       setDateOffset(0)
     })
   }, [])

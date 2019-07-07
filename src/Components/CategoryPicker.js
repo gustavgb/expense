@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 const CategoryPicker = ({ className, required, onChange, value }) => {
   const classes = useStyles()
-  const [categories = [], status] = usePromise(getCategories, { cacheKey: 'categories' })
+  const [categories = [], status] = usePromise(getCategories)
   const selections = useMemo(() => {
     return categories.map(cat => {
       const color = stringToColor(cat.label)
@@ -42,6 +42,7 @@ const CategoryPicker = ({ className, required, onChange, value }) => {
   const handleChangeSelect = ({ target: { value } }) => {
     if (value === '@@new') {
       setNew(true)
+      onChange('')
     } else {
       setNew(false)
       onChange(value)
@@ -49,7 +50,6 @@ const CategoryPicker = ({ className, required, onChange, value }) => {
   }
 
   isNew = isNew || (categories.length === 0 && status === 'success')
-  const isLoading = status === 'pending'
 
   return (
     <div className={`${classes.root} ${className}`}>
@@ -64,11 +64,11 @@ const CategoryPicker = ({ className, required, onChange, value }) => {
             color: selected.textColor || 'initial'
           }}
         >
-          {isLoading && (<option value="" />)}
+          <option value="" />
           {selections.map(cat => (
             <option
               key={`category${cat.id}`}
-              value={cat.id}
+              value={cat.label}
               style={{
                 backgroundColor: cat.color,
                 color: cat.textColor
